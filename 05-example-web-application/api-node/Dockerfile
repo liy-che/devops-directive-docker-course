@@ -1,3 +1,6 @@
+# Dockerfile for Interpreted Language
+# aka does not need to be built
+
 # Each line of command is a new layer in the union file system
 
 # ~ clarity & security ~
