@@ -16,12 +16,16 @@ ENV NODE_ENV production
 
 # ~ speed ~
 # get app code into the container (from host system or another container image)
-# change in docker context invalidates the cache so only copy what is needed at this step
+# change in docker context (e.g. updating source code) invalidates the cache so only copy what is needed at this step
 COPY package*.json ./
 
 # ~ speed & image size ~
 # using clean install to not install dev dependencies for production
-RUN npm ci --only=production
+# use cache mount to avoid redownloading dependencies from internet
+    # need to enable buildkit and set DOCKER_BUILDKIT=1 to use this feature
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+  npm set cache /usr/src/app/.npm && \
+  npm ci --only=production
 
 # ~ security ~
 # use non-root user
