@@ -1,6 +1,11 @@
 # hybrid between Dockerfiles for interpreted and compiled languages
 # build static files then serve using a separate deployable stage
 
+# syntax=docker/dockerfile:1.5
+# escape=\
+# ^ OPTIONAL directives, must be at top if used
+# syntax needed for COPY --link
+
 FROM node:19.4-bullseye AS build
 
 WORKDIR /usr/src/app
